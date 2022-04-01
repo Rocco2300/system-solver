@@ -1,12 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int** create_matrix(int n, int m)
+typedef struct mat
 {
-    int** mat;
-    mat = calloc(n, sizeof(int*));
+    int n, m;
+    int** data;
+} Matrix;
 
+void destroy_matrix(Matrix* mat);
+
+Matrix* create_matrix(int n, int m)
+{
+    Matrix* mat = malloc(sizeof(Matrix*));
     if(mat == NULL)
+        return NULL;
+
+    mat->n = n;
+    mat->m = m;
+    mat->data = calloc(n, sizeof(int*));
+
+    if(mat->data == NULL)
     {
         free(mat);
         return NULL;
@@ -14,11 +27,11 @@ int** create_matrix(int n, int m)
 
     for (int i = 0; i < n; i++)
     {
-        mat[i] = calloc(m, sizeof(int));
+        mat->data[i] = calloc(m, sizeof(int));
 
-        if(mat[i] == NULL)
+        if(mat->data[i] == NULL)
         {
-            destroy_matrix(mat, n, m);
+            destroy_matrix(mat);
             return NULL;
         }
     }
@@ -26,18 +39,18 @@ int** create_matrix(int n, int m)
     return mat;
 }
 
-void destroy_matrix(int** mat, int n, int m)
+void destroy_matrix(Matrix* mat)
 {
     if(mat == NULL)
         return;
     
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < mat->n; i++)
     {
-        if(mat[i] != NULL)
-            free(mat[i]);
+        if(mat->data[i] != NULL)
+            free(mat->data[i]);
     }
 
-    free(mat);
+    free(mat->data);
 }
 
 void read_size(int* n, int* m)
@@ -46,34 +59,46 @@ void read_size(int* n, int* m)
     scanf("%d %d", n, m);
 }
 
-void read_matrix(int** mat, int n, int m)
+void read_matrix(Matrix* mat)
 {
-    printf("Enter the matrix of the system: ");
+    printf("Enter the matrix of the system:\n");
 
-    for(int i = 0; i < m; i++)
+    for(int i = 0; i < mat->m; i++)
     {
-        for(int j = 0; j < n; j++)
+        for(int j = 0; j < mat->n; j++)
         {
-            scanf("%d", &mat[i][j]);
+            scanf("%d", &mat->data[i][j]);
         }
     }
 }
 
-void print_matrix(int** mat, int n, int m)
+void print_matrix(Matrix* mat)
 {
-    printf("Matrix: ");
+    printf("Matrix:\n");
     
-    for(int i = 0; i < m; i++)
+    for(int i = 0; i < mat->m; i++)
     {
-        for(int j = 0; j < n; j++)
+        for(int j = 0; j < mat->n; j++)
         {
-            printf("%d ", mat[i][j]);
+            printf("%d ", mat->data[i][j]);
         }
         printf("\n");
     }
 }
 
+// void swap_rows(int** mat, int n, int m)
+
+// void get_echalon(int** mat, int n, int m)
+// {
+
+// }
+
 int main()
 {
+    int n, m;
+    read_size(&n, &m);
+    Matrix* mat = create_matrix(n, m);
+    read_matrix(mat);
+    print_matrix(mat);
     return 0;
 }
