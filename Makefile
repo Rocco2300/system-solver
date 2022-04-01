@@ -15,7 +15,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CCFLAGS) $^ -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
-	$(CC) $(CCFLAGS) $(INC) -c $< -o $@ 
+	$(CC) $(CCFLAGS) -I $(INC) -c $< -o $@ 
 
 clean:
 	del /f obj\*.o
