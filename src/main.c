@@ -7,6 +7,13 @@ typedef struct mat
     int** data;
 } Matrix;
 
+void swap(int* a, int *b)
+{
+    int aux = *a;
+    *a = *b;
+    *b = aux;
+}
+
 void destroy_matrix(Matrix* mat);
 
 Matrix* create_matrix(int n, int m)
@@ -86,7 +93,16 @@ void print_matrix(Matrix* mat)
     }
 }
 
-// void swap_rows(int** mat, int n, int m)
+void swap_rows(Matrix* mat, int row1, int row2)
+{
+    if(row1 >= mat->n || row2 >= mat->n || row1 < 0 || row2 < 0)
+        return;
+
+    for(int i = 0; i < mat->m; i++)
+    {
+        swap(&mat->data[row1][i], &mat->data[row2][i]);
+    }
+}
 
 // void get_echalon(int** mat, int n, int m)
 // {
@@ -99,6 +115,7 @@ int main()
     read_size(&n, &m);
     Matrix* mat = create_matrix(n, m);
     read_matrix(mat);
+    swap_rows(mat, 0, 1);
     print_matrix(mat);
     return 0;
 }
