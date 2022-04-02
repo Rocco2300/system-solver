@@ -48,7 +48,7 @@ void destroy_matrix(Matrix* mat)
 
 void copy_data(Matrix* mat1, Matrix* mat2)
 {
-    if(mat1->n != mat2->n || mat1->m != mat2->m)
+    if(mat1->n > mat2->n || mat1->m > mat2->m)
         return;
     
     for(int i = 0; i < mat1->n; i++)
