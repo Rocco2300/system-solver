@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef SOLUTION_H
+#define SOLUTION_H
 
 #include "matrix.h"
 

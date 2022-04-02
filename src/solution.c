@@ -1,4 +1,6 @@
-#include "utils.h"
+#include "solution.h"
+
+#include <stdio.h>
 
 void swap(float* a, float *b)
 {
@@ -26,7 +28,7 @@ void build_echalon(Matrix* mat)
 
     while(pivotRow < mat->n && pivotCol < mat->m)
     {
-        int nonZeroPivotRow = pivotRow;
+        int nonZeroPivotRow = -1;
 
         for(int i = pivotRow; i < mat->n; i++)
         {
@@ -38,6 +40,13 @@ void build_echalon(Matrix* mat)
             }
         }
 
+        if(nonZeroPivotRow == -1)
+        {
+            pivotCol++;
+            continue;
+        }
+
+        printf("%d %d\n", pivotRow, pivotCol);
         swap_rows(mat, pivotRow, nonZeroPivotRow);
         for(int i = pivotRow+1; i < mat->n; i++)
         {
@@ -59,7 +68,7 @@ int get_rank(Matrix* mat)
     copy_data(mat, echalon);
     build_echalon(echalon);
 
-    int rank = echalon->m;
+    int rank = echalon->n;
     for(int i = 0; i < echalon->n; i++)
     {
         int cnt = 0;
