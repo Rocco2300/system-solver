@@ -1,5 +1,7 @@
 #include "utils.h"
 
+#include "stdlib.h"
+#include "math.h"
 
 void swap(float* a, float *b)
 {
@@ -17,4 +19,9 @@ void swap_rows(Matrix* mat, int row1, int row2)
     {
         swap(&mat->data[row1][i], &mat->data[row2][i]);
     }
+}
+
+int get_digit_number(float number)
+{
+    return floor(log10(floor(number))) + 1;
 }

@@ -17,8 +17,7 @@ int main()
     Matrix* aug_mat = create_matrix(n, m+1);
     copy_matrix_data(coef_mat, aug_mat, 0, 0);
     copy_matrix_data(free_mat, aug_mat, m, 0);
-    printf("Augmented matrix:\n");
-    print_matrix(aug_mat);
+
     int coef_rank = get_rank(coef_mat);
     int aug_rank = get_rank(aug_mat);
 
@@ -34,7 +33,7 @@ int main()
         printf("The system has only one solution. \n");
 
     bareiss_algorithm(aug_mat);
-    print_matrix(aug_mat);
+    print_solution(aug_mat);
     destroy_matrix(coef_mat);
     destroy_matrix(free_mat);
     destroy_matrix(aug_mat);
