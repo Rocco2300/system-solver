@@ -8,7 +8,7 @@ int main()
     Matrix* mat = create_matrix(n, m);
     read_matrix(mat);
     Matrix* mat2 = create_matrix(n+2, m+1);
-    copy_matrix_data_to(mat, mat2, 1, 2);
+    copy_matrix_data(mat, mat2, 1, 2);
     print_matrix(mat2);
     // int rank = get_rank(mat);
     // build_echalon(mat);

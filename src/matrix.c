@@ -46,28 +46,14 @@ void destroy_matrix(Matrix* mat)
     free(mat->data);
 }
 
-void copy_matrix_data(Matrix* mat1, Matrix* mat2)
+void copy_matrix_data(Matrix* mat1, Matrix* mat2, int to_x, int to_y)
 {
     if(mat1->n > mat2->n || mat1->m > mat2->m)
         return;
     
-    for(int i = 0; i < mat1->n; i++)
-    {
-        for(int j = 0; j < mat1->m; j++)
-        {
-            mat2->data[i][j] = mat1->data[i][j];
-        }
-    }
-}
-
-void copy_matrix_data_to(Matrix* mat1, Matrix* mat2, int to_x, int to_y)
-{
-    if(mat1->n > mat2->n || mat1->m > mat2->m)
-        return;
-
     if(to_x < 0 || to_x >= mat2->m || to_y < 0 || to_y >= mat2->n)
         return;
-    
+
     for(int i = 0; i < mat1->n; i++)
     {
         for(int j = 0; j < mat1->m; j++)

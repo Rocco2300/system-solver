@@ -65,7 +65,7 @@ void build_echalon(Matrix* mat)
 int get_rank(Matrix* mat)
 {
     Matrix* echalon = create_matrix(mat->n, mat->m);
-    copy_matrix_data(mat, echalon);
+    copy_matrix_data(mat, echalon, 0, 0);
     build_echalon(echalon);
 
     int rank = echalon->n;
