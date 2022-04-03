@@ -13,7 +13,6 @@ void read_size(int* n, int* m)
 
 void read_matrix(Matrix* mat)
 {
-    printf("Enter the elements:\n");
 
     for(int i = 0; i < mat->n; i++)
     {
@@ -145,6 +144,7 @@ void print_solution(Matrix* mat)
         }
     }
 
+    printf("The solution is:\n");
     for(int i = 0; i < mat->m - 1; i++)
     {
         printf("%s\n", sol[i]);

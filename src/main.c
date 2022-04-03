@@ -9,10 +9,10 @@ int main()
     int n, m;
     read_size(&n, &m);
     Matrix* coef_mat = create_matrix(n, m);
-    printf("Enter the coefficients of the system:\n");
+    printf("Enter the coefficient matrix:\n");
     read_matrix(coef_mat);
     Matrix* free_mat = create_matrix(n, 1);
-    printf("Enter the free terms of the system:\n");
+    printf("Enter the free term vector:\n");
     read_matrix(free_mat);
     Matrix* aug_mat = create_matrix(n, m+1);
     copy_matrix_data(coef_mat, aug_mat, 0, 0);
@@ -23,14 +23,14 @@ int main()
 
     if(coef_rank != aug_rank)
     {
-        printf("The system doesn't have a solution!\n");
+        printf("The system of equations is inconsistent. \n");
         return EXIT_SUCCESS;
     }
     
     if(coef_rank < m)
-        printf("The system has an infinity of solutions. \n");
+        printf("The equation system is undetermined and consistent. \n");
     else
-        printf("The system has only one solution. \n");
+        printf("The equation system is determined and consistent. \n");
 
     bareiss_algorithm(aug_mat);
     print_solution(aug_mat);
