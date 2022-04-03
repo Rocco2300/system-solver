@@ -1,20 +1,42 @@
 #include "matrix_io.h"
 #include "solution.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 int main()
 {
     int n, m;
     read_size(&n, &m);
-    Matrix* mat = create_matrix(n, m);
-    read_matrix(mat);
-    Matrix* mat2 = create_matrix(n+2, m+1);
-    copy_matrix_data(mat, mat2, 1, 2);
-    print_matrix(mat2);
-    // int rank = get_rank(mat);
-    // build_echalon(mat);
-    // print_matrix(mat);
-    // printf("%d\n", rank);
-    destroy_matrix(mat2);
-    destroy_matrix(mat);
-    return 0;
+    Matrix* coef_mat = create_matrix(n, m);
+    printf("Enter the coefficients of the system:\n");
+    read_matrix(coef_mat);
+    Matrix* free_mat = create_matrix(n, 1);
+    printf("Enter the free terms of the system:\n");
+    read_matrix(free_mat);
+    Matrix* aug_mat = create_matrix(n, m+1);
+    copy_matrix_data(coef_mat, aug_mat, 0, 0);
+    copy_matrix_data(free_mat, aug_mat, m, 0);
+    printf("Augmented matrix:\n");
+    print_matrix(aug_mat);
+    int coef_rank = get_rank(coef_mat);
+    int aug_rank = get_rank(aug_mat);
+
+    if(coef_rank != aug_rank)
+    {
+        printf("The system doesn't have a solution!\n");
+        return EXIT_SUCCESS;
+    }
+    
+    if(coef_rank < m)
+        printf("The system has an infinity of solutions. \n");
+    else
+        printf("The system has only one solution. \n");
+
+    bareiss_algorithm(aug_mat);
+    print_matrix(aug_mat);
+    destroy_matrix(coef_mat);
+    destroy_matrix(free_mat);
+    destroy_matrix(aug_mat);
+    return EXIT_SUCCESS;
 }

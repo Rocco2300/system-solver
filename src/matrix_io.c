@@ -10,7 +10,7 @@ void read_size(int* n, int* m)
 
 void read_matrix(Matrix* mat)
 {
-    printf("Enter the matrix of the system:\n");
+    printf("Enter the elements:\n");
 
     for(int i = 0; i < mat->n; i++)
     {
@@ -33,4 +33,12 @@ void print_matrix(Matrix* mat)
         }
         printf("\n");
     }
+}
+
+// This function takes a matrix that
+// has been made in echalon by bareiss
+// algorithm and prints the solution
+void print_solution(Matrix* mat)
+{
+    
 }

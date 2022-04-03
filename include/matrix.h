@@ -9,6 +9,6 @@ typedef struct mat
 
 Matrix* create_matrix(int n, int m);
 void destroy_matrix(Matrix* mat);
-void copy_matrix_data(Matrix* mat1, Matrix* mat2, int to_x, int to_y);
+void copy_matrix_data(Matrix* from, Matrix* to, int to_x, int to_y);
 
 #endif
