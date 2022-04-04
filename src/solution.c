@@ -121,3 +121,34 @@ void bareiss_algorithm(Matrix* mat)
 
     destroy_matrix(output);
 }
+
+Matrix* build_solution(Matrix* echalon)
+{
+    Matrix* sol_coeff = create_matrix(echalon->m - 1, echalon->m);
+
+    for(int var = echalon->m - 2; var >= 0; var--)
+    {
+        for(int eq = echalon->n - 1; eq >= 0; eq--)
+        {
+            if(echalon->data[eq][var] == 0)
+                continue;
+            
+            if(var < 1 || echalon->data[eq][var-1] == 0)
+            {
+                int divisor = echalon->data[eq][var];
+                for(int i = echalon->m - 1; i > var; i--)
+                {
+                    if(echalon->data[eq][i] == 0)
+                        continue;
+                    
+                    sol_coeff->data[var][i] = echalon->data[eq][i] / divisor;
+                    if(i != echalon->m - 1)
+                        sol_coeff->data[var][i] *= -1;
+                }
+            }
+            break;
+        }
+    }
+
+    return sol_coeff;
+}

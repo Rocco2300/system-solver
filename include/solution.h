@@ -6,6 +6,6 @@
 void build_echalon(Matrix* mat);
 int get_rank(Matrix* mat);
 void bareiss_algorithm(Matrix* mat);
-void print_solution(Matrix* mat);
+Matrix* build_solution(Matrix* echalon);
 
 #endif

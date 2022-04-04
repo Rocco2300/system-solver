@@ -33,7 +33,10 @@ int main()
         printf("The equation system is determined and consistent. \n");
 
     bareiss_algorithm(aug_mat);
-    print_solution(aug_mat);
+    Matrix* sol = build_solution(aug_mat);
+    print_solution(sol);
+    print_matrix(sol);
+    destroy_matrix(sol);
     destroy_matrix(coef_mat);
     destroy_matrix(free_mat);
     destroy_matrix(aug_mat);

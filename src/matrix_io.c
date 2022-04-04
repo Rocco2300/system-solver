@@ -37,7 +37,7 @@ void print_matrix(Matrix* mat)
     }
 }
 
-void destroy_sol(char** arr, int size)
+void destroy_str_arr(char** arr, int size)
 {
     if(arr == NULL)
         return;
@@ -50,7 +50,7 @@ void destroy_sol(char** arr, int size)
     free(arr);
 }
 
-char** create_sol(int size)
+char** create_str_arr(int size)
 {
     char** sol = malloc(size * sizeof(char*));
 
@@ -63,7 +63,7 @@ char** create_sol(int size)
 
         if(sol[i] == NULL)
         {
-            destroy_sol(sol, size);
+            destroy_str_arr(sol, size);
             return NULL;
         }
 
@@ -73,82 +73,70 @@ char** create_sol(int size)
     return sol;
 }
 
-
-// This function takes a matrix that
-// has been made in echalon by bareiss
-// algorithm and prints the solution
-void print_solution(Matrix* mat)
+/*
+Concatenates to the string the indexed variable x
+*/
+void concat_xVar(char* str, int index)
 {
-    char** sol = create_sol(mat->m - 1);
+    strcat(str, "x");
+    char sub_idx[2];
+    itoa(index, sub_idx, 10); 
+    strcat(str, sub_idx);
+}
 
-    for(int var = mat->m - 2; var >= 0; var--)
+/*
+This function takes a solution matrix
+and prints off the solution in a human
+readable way
+*/
+void print_solution(Matrix* sol_coeff)
+{
+    char** sol = create_str_arr(sol_coeff->m - 1);
+
+    for(int row = sol_coeff->n - 1; row >= 0; row--)
     {
-        strcat(sol[var], "x");
-        char sub_idx[2];
-        itoa(var+1, sub_idx, 10); 
-        strcat(sol[var], sub_idx);
-        strcat(sol[var], " = ");
+        int cnt = 0;
+        concat_xVar(sol[row], row+1);
+        strcat(sol[row], " = ");
 
-        for(int eq = mat->n - 1; eq >= 0; eq--)
+        for(int col = 0; col < sol_coeff->m; col++)
         {
-            if(mat->data[eq][var] == 0)
+            if(sol_coeff->data[row][col] == 0)
+            {
+                cnt++;
                 continue;
-            
-            if(var >= 1 && mat->data[eq][var-1] != 0)
-            {
-                strcat(sol[var], "x");
-                strcat(sol[var], sub_idx);
             }
-            else 
+        
+            // If this isn't the first term, add the sign in front
+            if(sol_coeff->data[row][col-1] != 0 && col > 0 && sol_coeff->data[row][col] < 0)
             {
-                int divisor = mat->data[eq][var];
-                for(int i = mat->m - 1; i > var; i--)
-                {
-                    if(mat->data[eq][i] == 0)
-                        continue;
-
-                    char buf[100];
-                    float coeff = mat->data[eq][i] / divisor;
-                    char op[4] = "\0";
-                    char variable[4] = "\0";
-                    if(i != mat->m - 1)
-                    {
-                        coeff *= -1;
-                        if(coeff < 0)
-                        {
-                            strcat(op, " - ");
-                            coeff *= -1;
-                        }
-                        else 
-                            strcat(op, " + ");
-
-                        if(coeff != 1)
-                            strcat(variable, "*x");
-                        else
-                            strcat(variable, "x");
-                        char sub_idx[2];
-                        itoa(i+1, sub_idx, 10); 
-                        strcat(variable, sub_idx);
-                    }
-                    
-                    strcat(sol[var], op);
-                    if(coeff != 1)
-                    {
-                        sprintf_s(buf, sizeof(buf), "%.2f", coeff);
-                        strcat(sol[var], buf);
-                    }
-                    strcat(sol[var], variable);
-                }
+                strcat(sol[row], " - ");
+                sol_coeff->data[row][col] *= -1;
             }
-            break;
+            else if(sol_coeff->data[row][col-1] && col > 0 && sol_coeff->data[row][col] > 0)
+                strcat(sol[row], " + ");
+
+            char buf[100];
+            sprintf_s(buf, sizeof(buf), "%.2f", sol_coeff->data[row][col]);
+            strcat(sol[row], buf);
+            if(col != sol_coeff->m - 1)
+
+            if(col != sol_coeff->m - 1)
+            {
+                strcat(sol[row], "*");
+                concat_xVar(sol[row], col+1);
+            }
         }
+
+        if(cnt == sol_coeff->m)
+            concat_xVar(sol[row], row+1);
     }
 
     printf("The solution is:\n");
-    for(int i = 0; i < mat->m - 1; i++)
+    for(int i = 0; i < sol_coeff->m - 1; i++)
     {
         printf("%s\n", sol[i]);
     }
 
-    destroy_sol(sol, mat->m - 1);
+    destroy_str_arr(sol, sol_coeff->m - 1);
 }

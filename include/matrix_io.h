@@ -6,5 +6,6 @@
 void read_size(int* n, int* m);
 void read_matrix(Matrix* mat);
 void print_matrix(Matrix* mat);
+void print_solution(Matrix* mat);
 
 #endif
