@@ -35,7 +35,6 @@ int main()
     bareiss_algorithm(aug_mat);
     Matrix* sol = build_solution(aug_mat);
     print_solution(sol);
-    print_matrix(sol);
     destroy_matrix(sol);
     destroy_matrix(coef_mat);
     destroy_matrix(free_mat);
