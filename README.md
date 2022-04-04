@@ -14,8 +14,8 @@ says that the system is incosistent, since there is no solution.
 - make
 
 ## Screenshots
-![Input](./input.png)
-![Ouput](./output.png)
+![Input](./example1.png)
+![Ouput](./example2.png)
 
 ## Usage
 
